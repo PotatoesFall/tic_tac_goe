@@ -7,13 +7,13 @@ import (
 )
 
 const (
-	smallReward = 1
-	reward      = 10
-	punishment  = 4
+	smallReward = 2
+	reward      = 1
+	punishment  = 10
 )
 
 // Train plays random games and modifies the weights
-func Train(parent Node, n int) {
+func Train(parent Node, n int, start bool) {
 	rand.Seed(time.Now().UTC().UnixNano())
 
 	for i := 0; i < n; i++ {
@@ -25,50 +25,39 @@ func Train(parent Node, n int) {
 			if curNode.Outcome != None || len(curNode.Choices) == 0 {
 				break
 			}
-			choice := makeChoice(curNode)
-			choices = append(choices, choice)
+			var choice *Choice
+			if j%2 == 0 != start {
+				choice = makeChoice(curNode)
+				choices = append(choices, choice)
+			} else {
+				choice = makeRandomChoice(curNode)
+			}
 			curNode = choice.Node
 		}
-		// change AI around
-		switch curNode.Outcome {
-		case None:
+		// use feedback
+		switch {
+		case curNode.Outcome == None:
 			for _, choice := range choices {
-				if choice.Weight < 255-smallReward {
+				if choice.Weight <= 255-smallReward {
 					choice.Weight += smallReward
 				} else {
 					choice.Weight = 255
 				}
 			}
-		case XWin:
-			for i, choice := range choices {
-				if i%2 == 0 {
-					if choice.Weight <= 255-reward {
-						choice.Weight += reward
-					} else {
-						choice.Weight = 255
-					}
+		case curNode.Outcome == XWin == start || curNode.Outcome == OWin != start:
+			for _, choice := range choices {
+				if choice.Weight >= punishment {
+					choice.Weight -= punishment
 				} else {
-					if choice.Weight >= punishment {
-						choice.Weight -= punishment
-					} else {
-						choice.Weight = 0
-					}
+					choice.Weight = 0
 				}
 			}
-		case OWin:
-			for i, choice := range choices {
-				if i%2 != 0 {
-					if choice.Weight <= 255-reward {
-						choice.Weight += reward
-					} else {
-						choice.Weight = 255
-					}
+		case curNode.Outcome == XWin != start || curNode.Outcome == OWin == start:
+			for _, choice := range choices {
+				if choice.Weight <= 255-reward {
+					choice.Weight += reward
 				} else {
-					if choice.Weight >= punishment {
-						choice.Weight -= punishment
-					} else {
-						choice.Weight = 0
-					}
+					choice.Weight = 255
 				}
 			}
 		}

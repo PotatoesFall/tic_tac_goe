@@ -2,7 +2,7 @@ package tictactoe
 
 import "fmt"
 
-// statistical variables for debugging
+// Nums is the number of variations in each depth step
 var Nums map[uint8]int
 
 // NodeMap contains all nodes to prevent duplicate nodes

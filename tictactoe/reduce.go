@@ -1,6 +1,14 @@
 package tictactoe
 
 func reduceState(state State) State {
+	for i := 0; i < 4; i++ {
+		if _, exists := NodeMap[state]; exists {
+			return state
+		}
+		state = rotate(state)
+	}
+
+	state = flip(state)
 
 	for i := 0; i < 4; i++ {
 		if _, exists := NodeMap[state]; exists {
@@ -8,14 +16,7 @@ func reduceState(state State) State {
 		}
 		state = rotate(state)
 	}
-	state = flip(state)
-	for i := 0; i < 4; i++ {
-		if _, exists := NodeMap[state]; exists {
-			return state
-		}
-		state = rotate(state)
-	}
-	// if nothing is found, return any
+
 	return state
 }
 
