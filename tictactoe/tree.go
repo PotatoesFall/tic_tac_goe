@@ -44,6 +44,7 @@ func makeChildren(node *Node) {
 		// set new state
 		newState := node.State
 		newState[i] = newField
+		newState = reduceState(newState)
 
 		// make a choice and get or create node for new state
 		choice := Choice{

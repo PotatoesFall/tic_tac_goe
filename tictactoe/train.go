@@ -7,9 +7,9 @@ import (
 )
 
 const (
-	smallReward = 5
-	reward      = 30
-	punishment  = 20
+	smallReward = 1
+	reward      = 10
+	punishment  = 4
 )
 
 // Train plays random games and modifies the weights
@@ -48,10 +48,10 @@ func Train(parent Node, n int) {
 						choice.Weight = 255
 					}
 				} else {
-					if choice.Weight > punishment {
+					if choice.Weight >= punishment {
 						choice.Weight -= punishment
 					} else {
-						choice.Weight = 1
+						choice.Weight = 0
 					}
 				}
 			}
@@ -64,10 +64,10 @@ func Train(parent Node, n int) {
 						choice.Weight = 255
 					}
 				} else {
-					if choice.Weight > punishment {
+					if choice.Weight >= punishment {
 						choice.Weight -= punishment
 					} else {
-						choice.Weight = 1
+						choice.Weight = 0
 					}
 				}
 			}
@@ -79,6 +79,9 @@ func makeChoice(node *Node) *Choice {
 	sum := 0
 	for _, choice := range node.Choices {
 		sum += int(choice.Weight)
+	}
+	if sum == 0 {
+		return makeRandomChoice(node)
 	}
 	randInt := rand.Intn(sum)
 	sum = 0
