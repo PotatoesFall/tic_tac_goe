@@ -34,7 +34,7 @@ func MakeDoc(parent Node, docName string) error {
 }
 
 func makeLine(i int, state State, states []State, weights []uint8) string {
-	out := getCSVString(state[0+3*i], state[1+3*i], state[2+3*i], "Set")
+	out := getCSVString(state[0+3*i], state[1+3*i], state[2+3*i])
 	for _, state := range states {
 		out += getCSVString(state[0+3*i], state[1+3*i], state[2+3*i])
 	}

@@ -20,7 +20,7 @@ func main() {
 
 	fmt.Println()
 	fmt.Println("Random pre-training round:")
-	outcomes := tictactoe.CountOutcomes(tictactoe.Play(parent, playingRounds, true))
+	outcomes := tictactoe.CountOutcomes(tictactoe.RandomPlay(parent, playingRounds, true))
 	draw, xwin, owin := calcPercent(outcomes)
 	fmt.Printf("%%%2d Draw, %%%2d X, %%%2d O\n", draw, xwin, owin)
 
@@ -32,17 +32,19 @@ func main() {
 
 	fmt.Println()
 	fmt.Println("Post-training round for X:")
-	outcomes = tictactoe.CountOutcomes(tictactoe.Play(parent, playingRounds, false))
+	outcomes = tictactoe.CountOutcomes(tictactoe.RandomPlay(parent, playingRounds, false))
 	draw, xwin, owin = calcPercent(outcomes)
 	fmt.Printf("%%%2d Draw, %%%2d X, %%%2d O\n", draw, xwin, owin)
 
 	fmt.Println()
 	fmt.Println("Post-training round for O:")
-	outcomes = tictactoe.CountOutcomes(tictactoe.Play(parent, playingRounds, true))
+	outcomes = tictactoe.CountOutcomes(tictactoe.RandomPlay(parent, playingRounds, true))
 	draw, xwin, owin = calcPercent(outcomes)
 	fmt.Printf("%%%2d Draw, %%%2d X, %%%2d O\n", draw, xwin, owin)
 
-	tictactoe.MakeDoc(parent, "output.csv")
+	// tictactoe.MakeDoc(parent, "output.csv")
+
+	tictactoe.Play(parent)
 }
 
 func calcPercent(outcomes [3]int) (int, int, int) {

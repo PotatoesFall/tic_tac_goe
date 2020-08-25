@@ -24,7 +24,7 @@ func MakeTree() Node {
 func PrintState(state State) {
 	fmt.Println("_______")
 	for i := 0; i < 9; i += 3 {
-		fmt.Printf("|%c %c %c|\n", getField(state[i]), getField(state[i+1]), getField(state[i+2]))
+		fmt.Printf("|%c %c %c|\n", getFieldRune(state[i]), getFieldRune(state[i+1]), getFieldRune(state[i+2]))
 	}
 	fmt.Println("¯¯¯¯¯¯¯")
 }
@@ -37,7 +37,7 @@ func makeChildren(node *Node) {
 
 	for i, field := range node.State {
 		// only make children for empty fields
-		if field != None {
+		if field != Empty {
 			continue
 		}
 
@@ -71,7 +71,7 @@ func makeChildren(node *Node) {
 }
 
 // Helper for PrintState
-func getField(field Field) rune {
+func getFieldRune(field Field) rune {
 	switch field {
 	case Empty:
 		return '·'
